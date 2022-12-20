@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "test-ciplay"
+version = "0.1.0"
+description = ""
+authors = ["Dev-cmyser <kirrallt@mail.ru>"]
+readme = "README.md"
+packages = [{include = "test_ciplay"}]
+
+[tool.poetry.dependencies]
+python = "3.11"
+fastapi = "^0.88.0"
+sqlalchemy = "^1.4.45"
+uvicorn = "^0.20.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
