@@ -1,18 +1,19 @@
-FROM python:3.11
+FROM python:3.11.0
 RUN apt-get update -y
 RUN apt-get upgrade -y
  
 
-# System deps:
-RUN pip install poetry==1.2.2
-
+# set work directory
 WORKDIR /app
-COPY ./poetry.lock ./pyproject.toml ./
-COPY ./app ./app
-COPY ./README.md ./README.md
-RUN poetry config virtualenvs.create false && poetry install
-RUN poetry shell
 
-  
+# set env variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONPATH "${PYTHONPATH}:/app/app"
 
-CMD [ "uvicorn", "main:app", "--reload"]
+# install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# copy project
+COPY . .

@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Dev-cmyser <kirrallt@mail.ru>"]
 readme = "README.md"
-packages = [{include = "test_ciplay"}]
+packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
 python = "3.11"

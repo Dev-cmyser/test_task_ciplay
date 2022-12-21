@@ -1,9 +1,9 @@
-import models
-import schemas
 from typing import List
 from fastapi import FastAPI, status, HTTPException, Depends
 from database import Base, engine, SessionLocal
 from sqlalchemy.orm import Session
+import models
+import schemas
 from datetime import datetime
 
 # Create the database
@@ -22,7 +22,7 @@ def get_session():
 
 
 
-@app.post("/create_event", response_model=schemas.Event, status_code=status.HTTP_201_CREATED)
+@app.post("/create_event",response_model=schemas.Event, status_code=status.HTTP_201_CREATED)
 def create_todo(event: schemas.EventCreate, session: Session = Depends(get_session)):
 
     # create an instance of the ToDo database model
@@ -33,7 +33,6 @@ def create_todo(event: schemas.EventCreate, session: Session = Depends(get_sessi
     session.commit()
     session.refresh(eventdb)
 
-    # return the todo object
     return eventdb
 
 
@@ -55,7 +54,7 @@ def delete_todo(session: Session = Depends(get_session)):
     return None
 # http://127.0.0.1:8000/?start=2022-12-20T20:01:56.083000&end=2022-12-20T20:01:56.083000
 @app.get("/", response_model = List)
-def get_event_list(start: datetime | None = '2022-12-20T20:01:56.083000', end: datetime | None = '2022-12-20T20:01:56.083000', session: Session = Depends(get_session)):
+def get_event_list(start: datetime | None = 0, end: datetime | None = 0, session: Session = Depends(get_session)):
     
 
         
@@ -83,9 +82,11 @@ def get_event_list(start: datetime | None = '2022-12-20T20:01:56.083000', end: d
 
         })
     event_list = []
-    if start and end:
-        start = datetime.strptime(str(start)[:-7], '%Y-%m-%d %H:%M:%S')
-        end = datetime.strptime(str(end)[:-7], '%Y-%m-%d %H:%M:%S')
+    
+    if start !=0 and end != 0:
+        
+        start = datetime.strptime(str(start)[:-7], '%Y-%m-%dT%H:%M:%S')
+        end = datetime.strptime(str(end)[:-7], '%Y-%m-%dT%H:%M:%S')
         for i in events:
             if start <= datetime.strptime(str(i['date'])[:-7], '%Y-%m-%d %H:%M:%S') <= end:
                 event_list.append(i)
