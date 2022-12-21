@@ -69,8 +69,12 @@ def get_event_list(start: datetime | None = 0, end: datetime | None = 0, session
     for i in event_list:
         if i.clicks == 0 or i.cost == 0:
             cpc = 0
+        else:
+            cpc = i.cost/i.clicks
         if i.views == 0 or i.cost == 0:
             cpm = 0
+        else:
+            cpm = i.cost/i.views * 1000
         events.append({
             'id': i.id,
             'date': i.date,
